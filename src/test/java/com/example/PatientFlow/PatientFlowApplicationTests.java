@@ -28,7 +28,21 @@ class PatientFlowApplicationTests {
 
 		DocumentContext documentContext = JsonPath.parse(response.getBody());
 		Number id = documentContext.read("$.id");
-		assertThat(id).isNotNull();
+		assertThat(id).isEqualTo(20);
+
+		String name = documentContext.read("$.name");
+		assertThat(name).isEqualTo("Linda John");
+
+	}
+
+	@Test
+	void shouldNotReturnACashCardWithAnUnknownId(){
+		ResponseEntity<String> response = restTemplate.getForEntity("/patients/1000", String.class);
+
+		System.out.println(response.getBody());
+
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+		assertThat(response.getBody()).isNull();
 	}
 
 }

@@ -1,7 +1,9 @@
 package com.example.PatientFlow;
 
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class PatientController {
 
     @GetMapping("/{requestedId}") //marks a method as a handler method. GET requests that match URI will be handled by this
-    private ResponseEntity<Patient> findById(){
-        Patient patient = new Patient("Linda John", 76, 20);
-        return ResponseEntity.ok(patient);
+    private ResponseEntity<Patient> findById(@PathVariable int requestedId){
+
+            Patient patient = new Patient("Linda John", 76, 20);
+            return ResponseEntity.ok(patient);
+
     }
 }
