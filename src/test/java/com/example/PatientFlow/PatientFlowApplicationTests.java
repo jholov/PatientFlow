@@ -11,27 +11,32 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //This will start Spring Boot application and make it available for our test
 class PatientFlowApplicationTests {
+
+	private PatientRepository patientRepository;
+
 	@Autowired //asked spring to inject a test helper that'll allow us to make HTTP requests to the locally running application.
 	TestRestTemplate restTemplate;
 
 	@Test
 	void shouldReturnAPatientWhenDataIsSaved(){
-		ResponseEntity<String> response = restTemplate.getForEntity("/patients/24",String.class);
-
-		System.out.println("Response body: " + response.getBody());
-
+		ResponseEntity<String> response = restTemplate.getForEntity("/patients/0",String.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
 		DocumentContext documentContext = JsonPath.parse(response.getBody());
 		Number id = documentContext.read("$.id");
-		assertThat(id).isEqualTo(20);
+		assertThat(id).isEqualTo(0);
 
 		String name = documentContext.read("$.name");
 		assertThat(name).isEqualTo("Linda John");
+
+		Number age = documentContext.read("$.age");
+		assertThat(age).isEqualTo(76);
 
 	}
 

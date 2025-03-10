@@ -2,18 +2,29 @@ package com.example.PatientFlow;
 
 import java.time.LocalDate;
 import java.time.Period;
+import org.springframework.data.annotation.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.relational.core.mapping.Table;
 
+
+import javax.annotation.processing.Generated;
+@Table("patients")
 public class Patient {
 
+    @Id
+    @JsonIgnore
+    private int id;
     private String name;
     private int age;
-    private int id;
     private LocalDate dateOfBirth;
 
-    public Patient(String name, int age, int id){
+    public Patient(){
+
+    }
+
+    public Patient(String name, int age){
         this.name = name;
         this.age = age;
-        this.id = id;
     }
 
     public String getName() {

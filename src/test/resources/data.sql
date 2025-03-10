@@ -1,0 +1,2 @@
+
+    INSERT INTO PATIENT(NAME, AGE) VALUES ('Linda John', 76);

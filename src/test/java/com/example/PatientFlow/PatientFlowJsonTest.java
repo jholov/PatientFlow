@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.File;
 import java.io.IOException;
 
 
@@ -17,8 +15,7 @@ public class PatientFlowJsonTest {
 
     @Test
     void patientSerializationTest() throws IOException {
-        Patient patient = new Patient("Linda Brown", 92, 101);
-
+        Patient patient = new Patient("Linda Brown", 92);
 
         assertThat(json.write(patient)).isStrictlyEqualToJson("/expected.json");
         assertThat(json.write(patient)).hasJsonPathStringValue("@.name");
@@ -27,11 +24,6 @@ public class PatientFlowJsonTest {
         assertThat(json.write(patient)).hasJsonPathNumberValue("@.age");
         assertThat(json.write(patient)).extractingJsonPathNumberValue("@.age")
                         .isEqualTo(92);
-        assertThat(json.write(patient)).hasJsonPathNumberValue("@.id");
-        assertThat(json.write(patient)).extractingJsonPathNumberValue("@.id")
-                        .isEqualTo(101);
-
-
     }
 
     @Test
@@ -39,14 +31,12 @@ public class PatientFlowJsonTest {
        String expected = """
                {
                     "name": "Linda Brown",
-                    "age": 91,
-                    "id": 102
+                    "age": 91
                }
                """;
         Patient patient = json.parseObject(expected);
 
         assertThat(patient.getName()).isEqualTo("Linda Brown");
         assertThat(patient.getAge()).isEqualTo(91);
-        assertThat(patient.getId()).isEqualTo(102);
     }
 }
